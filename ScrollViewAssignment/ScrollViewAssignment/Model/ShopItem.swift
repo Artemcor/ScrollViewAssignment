@@ -8,7 +8,6 @@
 import Foundation
 
 struct ShopItem {
-    
     let name: String
     let description: String
     let nameOfimage: String

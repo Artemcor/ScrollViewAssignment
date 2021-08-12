@@ -21,6 +21,8 @@ class CustomTableViewCell: UITableViewCell {
     @IBOutlet weak var lowerLabelOfCell: UILabel!
     @IBOutlet weak var countLabel: UILabel!
     
+//    var complation: ((UITableViewCell) -> ())?
+    
     @IBAction func minusButton(_ sender: Any) {
         delegate?.minusAction(cell: self)
     }

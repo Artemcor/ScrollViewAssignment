@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		A77CF5FF26C52B790091A248 /* ShopItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77CF5FE26C52B790091A248 /* ShopItem.swift */; };
-		A77CF60126C532150091A248 /* listOfShopItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77CF60026C532150091A248 /* listOfShopItem.swift */; };
 		A794930D26C3EE0A00FECCD4 /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A794930C26C3EE0A00FECCD4 /* CustomTableViewCell.swift */; };
 		A794932F26C44C8300FECCD4 /* ShowCellViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A794932E26C44C8300FECCD4 /* ShowCellViewController.swift */; };
 		A7E389AE26C31599008C0905 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E389AD26C31599008C0905 /* AppDelegate.swift */; };
@@ -21,7 +20,6 @@
 
 /* Begin PBXFileReference section */
 		A77CF5FE26C52B790091A248 /* ShopItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopItem.swift; sourceTree = "<group>"; };
-		A77CF60026C532150091A248 /* listOfShopItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = listOfShopItem.swift; sourceTree = "<group>"; };
 		A794930C26C3EE0A00FECCD4 /* CustomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
 		A794932E26C44C8300FECCD4 /* ShowCellViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowCellViewController.swift; sourceTree = "<group>"; };
 		A7E389AA26C31599008C0905 /* ScrollViewAssignment.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ScrollViewAssignment.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -49,7 +47,6 @@
 			isa = PBXGroup;
 			children = (
 				A77CF5FE26C52B790091A248 /* ShopItem.swift */,
-				A77CF60026C532150091A248 /* listOfShopItem.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -169,7 +166,6 @@
 				A7E389AE26C31599008C0905 /* AppDelegate.swift in Sources */,
 				A77CF5FF26C52B790091A248 /* ShopItem.swift in Sources */,
 				A794930D26C3EE0A00FECCD4 /* CustomTableViewCell.swift in Sources */,
-				A77CF60126C532150091A248 /* listOfShopItem.swift in Sources */,
 				A794932F26C44C8300FECCD4 /* ShowCellViewController.swift in Sources */,
 				A7E389B026C31599008C0905 /* SceneDelegate.swift in Sources */,
 			);
