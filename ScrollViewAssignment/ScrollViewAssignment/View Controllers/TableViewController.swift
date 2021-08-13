@@ -26,12 +26,11 @@ class TableViewController: UITableViewController {
                 if isPlusAction {
                     self?.shoppingItems[indexPath.row].quantity += 1
                         customCell.setupCell(with: (self?.shoppingItems[indexPath.row])!)
-                    
                 } else {
                     if (self?.shoppingItems[indexPath.row].quantity)! > 0 {
                         self?.shoppingItems[indexPath.row].quantity -= 1
-                        customCell.setupCell(with: (self?.shoppingItems[indexPath.row])!)
                     }
+                    customCell.setupCell(with: (self?.shoppingItems[indexPath.row])!)
                 }
             }
         }
