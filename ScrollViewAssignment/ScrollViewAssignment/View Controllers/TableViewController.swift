@@ -22,22 +22,17 @@ class TableViewController: UITableViewController {
         if let customCell = cell as? CustomTableViewCell {
             let item = shoppingItems[indexPath.row]
             customCell.setupCell(with: item)
-            customCell.complation = { [weak self] isPlusAction in
-                var countForLabel = (self?.shoppingItems[indexPath.row].quantity)!
+            customCell.completion = { [weak self] isPlusAction in
                 if isPlusAction {
                     self?.shoppingItems[indexPath.row].quantity += 1
-                    if let count = self?.shoppingItems[indexPath.row].quantity {
-                        countForLabel = count
-                    }
+                        customCell.setupCell(with: (self?.shoppingItems[indexPath.row])!)
+                    
                 } else {
                     if (self?.shoppingItems[indexPath.row].quantity)! > 0 {
                         self?.shoppingItems[indexPath.row].quantity -= 1
-                        if let count = self?.shoppingItems[indexPath.row].quantity {
-                            countForLabel = count
-                        }
+                        customCell.setupCell(with: (self?.shoppingItems[indexPath.row])!)
                     }
                 }
-                return String(countForLabel)
             }
         }
         return cell

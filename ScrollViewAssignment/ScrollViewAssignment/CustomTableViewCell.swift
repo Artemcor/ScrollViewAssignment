@@ -20,14 +20,15 @@ class CustomTableViewCell: UITableViewCell {
         productImageView.image = UIImage(named: item.nameOfimage)
         nameLabel.text = item.name
         descriptionLabel.text = item.description
+        countLabel.text = String(item.quantity)
     }
     
-    var complation: ((_ isPlusAction : Bool) -> (String))?
+    var completion: ((_ isPlusAction : Bool) -> ())?
     
     @IBAction func minusButton(_ sender: Any) {
-        countLabel.text = complation?(false)
+        completion?(false)
     }
     @IBAction func plusButton(_ sender: Any) {
-        countLabel.text = complation?(true)
+        completion?(true)
     }
 }
