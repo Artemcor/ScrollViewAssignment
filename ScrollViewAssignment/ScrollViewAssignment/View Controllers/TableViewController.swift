@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  TableViewController.swift
 //  ScrollViewAssignment
 //
 //  Created by Стожок Артём on 10.08.2021.
@@ -13,24 +13,6 @@ class TableViewController: UITableViewController {
                          ShopItem(name: "Dessert", description: "This is so yummy", nameOfimage: "Dessert"),
                          ShopItem(name: "Camera Lens", description: "I wish I had this \ncamera lens", nameOfimage: "Camera lens")]
     
-//    func minusAction(cell: CustomTableViewCell) {
-//        if let index = tableView.indexPath(for: cell) {
-//            if shoppingItems[index.row].quantity > 0 {
-//                shoppingItems[index.row].quantity -= 1
-//                let item = shoppingItems[index.row]
-//                cell.countLabel.text = String(item.quantity)
-//            }
-//        }
-//    }
-//    
-//    func plusAction(cell: CustomTableViewCell) {
-//        if let index = tableView.indexPath(for: cell) {
-//            shoppingItems[index.row].quantity += 1
-//            let item = shoppingItems[index.row]
-//            cell.countLabel.text = String(item.quantity)
-//        }
-//    }
-    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return shoppingItems.count
     }
@@ -39,33 +21,35 @@ class TableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "rowOfItem", for: indexPath)
         if let customCell = cell as? CustomTableViewCell {
             let item = shoppingItems[indexPath.row]
-            customCell.itemForCell(item: item)
-            //            customCell.delegate = self
-            customCell.complation = { [weak self] sender in
-                if sender as? UIButton == customCell.plusButton {
+            customCell.setupCell(with: item)
+            customCell.complation = { [weak self] isPlusAction in
+                var countForLabel = (self?.shoppingItems[indexPath.row].quantity)!
+                if isPlusAction {
                     self?.shoppingItems[indexPath.row].quantity += 1
                     if let count = self?.shoppingItems[indexPath.row].quantity {
-                        customCell.countLabel.text = String(count)
+                        countForLabel = count
                     }
                 } else {
-                    self?.shoppingItems[indexPath.row].quantity -= 1
-                    if let count = self?.shoppingItems[indexPath.row].quantity {
-                        customCell.countLabel.text = String(count)
+                    if (self?.shoppingItems[indexPath.row].quantity)! > 0 {
+                        self?.shoppingItems[indexPath.row].quantity -= 1
+                        if let count = self?.shoppingItems[indexPath.row].quantity {
+                            countForLabel = count
+                        }
                     }
                 }
+                return String(countForLabel)
             }
         }
         return cell
     }
     
-
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showCell" {
             if let cvc = segue.destination as? ShowCellViewController {
                 if let cell = sender as? CustomTableViewCell {
                     if let index = tableView.indexPath(for: cell){
                         let item = shoppingItems[index.row]
-                        cvc.itemOfSEcondVC = item
+                        cvc.shopItem = item
                     }
                 }
             }

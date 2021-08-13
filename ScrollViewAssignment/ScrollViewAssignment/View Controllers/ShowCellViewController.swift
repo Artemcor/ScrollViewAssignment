@@ -13,11 +13,11 @@ class ShowCellViewController: UIViewController {
     @IBOutlet weak var headerLabel: UILabel!
     @IBOutlet weak var lowerLabel: UILabel!
     
-    var itemOfSEcondVC: ShopItem?
+    var shopItem: ShopItem?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        if let item = itemOfSEcondVC {
+        if let item = shopItem {
             headerLabel.text = item.name
             lowerLabel.text = item.description
             image.image = UIImage(named: item.nameOfimage)

@@ -1,5 +1,5 @@
 //
-//  customTableViewCell.swift
+//  CustomTableViewCell.swift
 //  ScrollViewAssignment
 //
 //  Created by Стожок Артём on 11.08.2021.
@@ -7,36 +7,27 @@
 
 import UIKit
 
-//protocol CustomTableViewCellDelegate: AnyObject {
-//    func minusAction (cell: CustomTableViewCell)
-//    func plusAction (cell: CustomTableViewCell)
-//}
-
 class CustomTableViewCell: UITableViewCell {
     
-//    weak var delegate: CustomTableViewCellDelegate?
-    
-    @IBOutlet weak var imageOfCell: UIImageView!
-    @IBOutlet weak var headerLabelOfCell: UILabel!
-    @IBOutlet weak var lowerLabelOfCell: UILabel!
+    @IBOutlet weak var productImageView: UIImageView!
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var countLabel: UILabel!
     @IBOutlet weak var plusButton: UIButton!
     @IBOutlet weak var minusButton: UIButton!
     
-    func itemForCell(item: ShopItem) {
-        imageOfCell.image = UIImage(named: item.nameOfimage)
-        headerLabelOfCell.text = item.name
-        lowerLabelOfCell.text = item.description
+    func setupCell(with item: ShopItem) {
+        productImageView.image = UIImage(named: item.nameOfimage)
+        nameLabel.text = item.name
+        descriptionLabel.text = item.description
     }
     
-    var complation: ((_ : Any) -> ())?
+    var complation: ((_ isPlusAction : Bool) -> (String))?
     
     @IBAction func minusButton(_ sender: Any) {
-        complation?(sender)
-//        delegate?.minusAction(cell: self)
+        countLabel.text = complation?(false)
     }
     @IBAction func plusButton(_ sender: Any) {
-        complation?(sender)
-//        delegate?.plusAction(cell: self)
+        countLabel.text = complation?(true)
     }
 }
