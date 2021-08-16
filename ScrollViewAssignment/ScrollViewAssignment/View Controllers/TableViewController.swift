@@ -11,7 +11,16 @@ class TableViewController: UITableViewController {
     
     @IBOutlet weak var addButton: UIBarButtonItem!
     
-    var choosingItems: [ShopItem] = []
+    lazy var choosingItems: [ShopItem] = {
+        var items: [ShopItem] = []
+        let fetchedItems: [Item]
+        try! fetchedItems = context.fetch(Item.fetchRequest())
+        for element in fetchedItems {
+            let item = ShopItem(name: element.wrappedName, description: element.wrappedDescription, nameOfimage: element.wrappedImage, quantity: Int(element.quantity))
+            items.append(item)
+        }
+        return items
+    }()
     
     var shoppingItems = [ShopItem(name: "Glasses", description: "This is the best Glasses \n I'he ever seen", nameOfimage: "Glasses"),
                          ShopItem(name: "Dessert", description: "This is so yummy", nameOfimage: "Dessert"),
@@ -24,19 +33,6 @@ class TableViewController: UITableViewController {
                          ShopItem(name: "Skateboard", description: "Better than BMX", nameOfimage: "Skateboard")]
      
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        var isFirstTime = true
-        if isFirstTime {
-            isFirstTime = false
-            fetchItem()
-        }
-    }
     
     @IBAction func addItem(_ sender: UIBarButtonItem) {
         if let item = shoppingItems.randomElement() {
@@ -54,15 +50,6 @@ class TableViewController: UITableViewController {
             savedItem.image = item.nameOfimage
             savedItem.quantity = Int64(item.quantity)
             try! context.save()
-        }
-    }
-    
-    func fetchItem() {
-        let fetchedItems: [Item]
-        try! fetchedItems = context.fetch(Item.fetchRequest())
-        for element in fetchedItems {
-            let item = ShopItem(name: element.wrappedName, description: element.wrappedDescription, nameOfimage: element.wrappedImage, quantity: Int(element.quantity))
-            choosingItems.append(item)
         }
     }
     
