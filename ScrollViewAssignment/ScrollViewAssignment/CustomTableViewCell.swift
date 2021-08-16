@@ -16,18 +16,19 @@ class CustomTableViewCell: UITableViewCell {
     @IBOutlet weak var plusButton: UIButton!
     @IBOutlet weak var minusButton: UIButton!
     
+    var completion: ((_ isPlusAction : Bool) -> ())?
+    
     func setupCell(with item: ShopItem) {
         productImageView.image = UIImage(named: item.nameOfimage)
         nameLabel.text = item.name
         descriptionLabel.text = item.description
         countLabel.text = String(item.quantity)
     }
-    
-    var completion: ((_ isPlusAction : Bool) -> ())?
-    
+        
     @IBAction func minusButton(_ sender: Any) {
         completion?(false)
     }
+    
     @IBAction func plusButton(_ sender: Any) {
         completion?(true)
     }

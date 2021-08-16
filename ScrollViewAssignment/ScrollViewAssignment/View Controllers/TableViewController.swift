@@ -23,18 +23,45 @@ class TableViewController: UITableViewController {
                          ShopItem(name: "Ball", description: "If you love football", nameOfimage: "Ball"),
                          ShopItem(name: "Skateboard", description: "Better than BMX", nameOfimage: "Skateboard")]
     
-    @IBAction func addItem(_ sender: UIBarButtonItem) {
-        guard shoppingItems.count > 0 else {
-            return
-        }
-        let newRowIndex = choosingItems.count
-        choosingItems.append(shoppingItems.remove(at: shoppingItems.count.random))
-        let indexPath = IndexPath(row: newRowIndex, section: 0)
-        let indexPaths = [indexPath]
-        tableView.insertRows(at: indexPaths, with: .automatic)
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        fetchItem()
     }
     
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    @IBAction func addItem(_ sender: UIBarButtonItem) {
+        if let item = shoppingItems.randomElement() {
+            choosingItems.append(item)
+            tableView.reloadData()
+        }
+    }
+    
+    @IBAction func SaveTable(_ sender: UIBarButtonItem) {
+        try! context.execute(Item.deleteRequest)
+        for item in choosingItems {
+            let savedItem = Item(context: context)
+            savedItem.name = item.name
+            savedItem.descriptionOfItem = item.description
+            savedItem.image = item.nameOfimage
+            savedItem.quantity = Int64(item.quantity)
+            try! context.save()
+        }
+    }
+    
+    func fetchItem() {
+        let fetchedItems: [Item]
+        try! fetchedItems = context.fetch(Item.fetchRequest())
+        for element in fetchedItems {
+            let item = ShopItem(name: element.name!, description: element.descriptionOfItem!, nameOfimage: element.image!, quantity: Int(element.quantity))
+            choosingItems.append(item)
+        }
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
+    }
+    
+    override func tableView (_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return choosingItems.count
     }
     
@@ -44,17 +71,17 @@ class TableViewController: UITableViewController {
             let item = choosingItems[indexPath.row]
             customCell.setupCell(with: item)
             customCell.completion = { [weak self] isPlusAction in
-                guard (self != nil) else {
+                guard let strongSelf = self else {
                     return
                 }
                 if isPlusAction {
-                    self?.choosingItems[indexPath.row].quantity += 1
-                        customCell.setupCell(with: (self?.choosingItems[indexPath.row])!)
+                    strongSelf.choosingItems[indexPath.row].quantity += 1
+                    customCell.setupCell(with: (strongSelf.choosingItems[indexPath.row]))
                 } else {
-                    if (self?.choosingItems[indexPath.row].quantity)! > 0 {
-                        self?.choosingItems[indexPath.row].quantity -= 1
+                    if (strongSelf.choosingItems[indexPath.row].quantity) > 0 {
+                        strongSelf.choosingItems[indexPath.row].quantity -= 1
                     }
-                    customCell.setupCell(with: (self?.choosingItems[indexPath.row])!)
+                    customCell.setupCell(with: (strongSelf.choosingItems[indexPath.row]))
                 }
             }
         }
@@ -71,18 +98,6 @@ class TableViewController: UITableViewController {
                     }
                 }
             }
-        }
-    }
-}
-
-extension Int {
-    var random: Int {
-        if self > 0 {
-            return Int(arc4random_uniform(UInt32(self)))
-        } else if self < 0 {
-            return -Int(arc4random_uniform(UInt32(abs(self))))
-        } else {
-            return 0
         }
     }
 }
