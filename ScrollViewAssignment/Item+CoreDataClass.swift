@@ -13,5 +13,17 @@ import CoreData
 public class Item: NSManagedObject {
     
     static let deleteRequest = NSBatchDeleteRequest(fetchRequest: Item.fetchRequest())
+    
+    var wrappedName: String {
+        name ?? "Unknown name"
+    }
+    
+    var wrappedDescription: String {
+        descriptionOfItem ?? "Unknown description"
+    }
+    
+    var wrappedImage: String {
+        image ?? "Unknown name of image"
+    }
 
 }

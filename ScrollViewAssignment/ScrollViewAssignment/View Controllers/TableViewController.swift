@@ -22,12 +22,20 @@ class TableViewController: UITableViewController {
                          ShopItem(name: "Strawberry", description: "Delicious!!!", nameOfimage: "Strawberry"),
                          ShopItem(name: "Ball", description: "If you love football", nameOfimage: "Ball"),
                          ShopItem(name: "Skateboard", description: "Better than BMX", nameOfimage: "Skateboard")]
-    
+     
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        fetchItem()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        var isFirstTime = true
+        if isFirstTime {
+            isFirstTime = false
+            fetchItem()
+        }
     }
     
     @IBAction func addItem(_ sender: UIBarButtonItem) {
@@ -37,7 +45,7 @@ class TableViewController: UITableViewController {
         }
     }
     
-    @IBAction func SaveTable(_ sender: UIBarButtonItem) {
+    @IBAction func saveTable(_ sender: UIBarButtonItem) {
         try! context.execute(Item.deleteRequest)
         for item in choosingItems {
             let savedItem = Item(context: context)
@@ -53,11 +61,8 @@ class TableViewController: UITableViewController {
         let fetchedItems: [Item]
         try! fetchedItems = context.fetch(Item.fetchRequest())
         for element in fetchedItems {
-            let item = ShopItem(name: element.name!, description: element.descriptionOfItem!, nameOfimage: element.image!, quantity: Int(element.quantity))
+            let item = ShopItem(name: element.wrappedName, description: element.wrappedDescription, nameOfimage: element.wrappedImage, quantity: Int(element.quantity))
             choosingItems.append(item)
-        }
-        DispatchQueue.main.async {
-            self.tableView.reloadData()
         }
     }
     
