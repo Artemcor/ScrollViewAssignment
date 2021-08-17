@@ -18,11 +18,11 @@ class CustomTableViewCell: UITableViewCell {
     
     var completion: ((_ isPlusAction : Bool) -> ())?
     
-    func setupCell(with item: ShopItem) {
-        productImageView.image = UIImage(named: item.nameOfimage)
-        nameLabel.text = item.name
-        descriptionLabel.text = item.description
-        countLabel.text = String(item.quantity)
+    func setupCell(with item: Film) {
+//        productImageView.image = UIImage(named: item.nameOfimage)
+        nameLabel.text = item.titleLabelText
+        descriptionLabel.text = item.subtitleLabelText  
+//        countLabel.text = String(item.quantity)
     }
         
     @IBAction func minusButton(_ sender: Any) {
