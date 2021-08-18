@@ -2,7 +2,7 @@
 //  Item+CoreDataProperties.swift
 //  ScrollViewAssignment
 //
-//  Created by Стожок Артём on 16.08.2021.
+//  Created by Стожок Артём on 18.08.2021.
 //
 //
 
@@ -16,10 +16,12 @@ extension Item {
         return NSFetchRequest<Item>(entityName: "Item")
     }
 
-    @NSManaged public var image: String?
-    @NSManaged public var descriptionOfItem: String?
-    @NSManaged public var name: String?
-    @NSManaged public var quantity: Int64
+    @NSManaged public var title: String?
+    @NSManaged public var id: Int64
+    @NSManaged public var openingCrawl: String?
+    @NSManaged public var director: String?
+    @NSManaged public var producer: String?
+    @NSManaged public var releaseDate: String?
 
 }
 

@@ -14,8 +14,7 @@ struct Film: Decodable {
   let director: String
   let producer: String
   let releaseDate: String
-  let starships: [String]
-  
+
   enum CodingKeys: String, CodingKey {
     case id = "episode_id"
     case title
@@ -23,36 +22,5 @@ struct Film: Decodable {
     case director
     case producer
     case releaseDate = "release_date"
-    case starships
-  }
-}
-
-extension Film {
-  var titleLabelText: String {
-    title
-  }
-  
-  var subtitleLabelText: String {
-    "Episode \(String(id))"
-  }
-  
-  var item1: (label: String, value: String) {
-    ("DIRECTOR", director)
-  }
-  
-  var item2: (label: String, value: String) {
-    ("PRODUCER", producer)
-  }
-  
-  var item3: (label: String, value: String) {
-    ("RELEASE DATE", releaseDate)
-  }
-  
-  var listTitle: String {
-    "STARSHIPS"
-  }
-  
-  var listItems: [String] {
-    starships
   }
 }

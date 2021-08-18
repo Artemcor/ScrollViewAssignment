@@ -12,44 +12,61 @@ class TableViewController: UITableViewController {
     
     @IBOutlet weak var addButton: UIBarButtonItem!
     
-//    lazy var choosingItems: [ShopItem] = {
-//        var items: [ShopItem] = []
-//        let fetchedItems: [Item]
-//        try! fetchedItems = context.fetch(Item.fetchRequest())
-//        for element in fetchedItems {
-//            let item = ShopItem(name: element.wrappedName, description: element.wrappedDescription, nameOfimage: element.wrappedImage, quantity: Int(element.quantity))
-//            items.append(item)
-//        }
-//        return items
-//    }()
-    
-    var items: [Film] = []
-     
-    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    private var items: [Film] = []
+        
+    private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        var isFirstTime = true
+        if isFirstTime {
+            isFirstTime = false
+            fetchFromCoreData()
+            if !items.isEmpty {
+                tableView.reloadData()
+            }
+        }
+    }
+    
+    @IBAction func addItem(_ sender: UIBarButtonItem) {
         fetchFilms()
     }
     
-//    @IBAction func addItem(_ sender: UIBarButtonItem) {
-//        if let item = shoppingItems.randomElement() {
-//            choosingItems.append(item)
-//            tableView.reloadData()
-//        }
-//    }
+    @IBAction func saveTable(_ sender: UIBarButtonItem) {
+        do {
+            try context.execute(Item.deleteRequest)
+        } catch let error as NSError {
+            print("Could not exute deletion \(error), \(error.userInfo)")
+        }
+        for item in items {
+            let savedItem = Item(context: context)
+            savedItem.id = Int64(item.id)
+            savedItem.director = item.director
+            savedItem.openingCrawl = item.openingCrawl
+            savedItem.producer = item.producer
+            savedItem.releaseDate = item.releaseDate
+            savedItem.title = item.title
+            do {
+                try context.save()
+            } catch let error as NSError {
+                print("Could not exute saving \(error), \(error.userInfo)")
+            }
+        }
+    }
     
-//    @IBAction func saveTable(_ sender: UIBarButtonItem) {
-//        try! context.execute(Item.deleteRequest)
-//        for item in choosingItems {
-//            let savedItem = Item(context: context)
-//            savedItem.name = item.name
-//            savedItem.descriptionOfItem = item.description
-//            savedItem.image = item.nameOfimage
-//            savedItem.quantity = Int64(item.quantity)
-//            try! context.save()
-//        }
-//    }
+    private func fetchFromCoreData() {
+        var fetchedItems: [Item] = []
+        do {
+            try fetchedItems = context.fetch(Item.fetchRequest())
+        } catch let error as NSError {
+            print("Could not fetch \(error), \(error.userInfo)")
+        }
+        
+        for element in fetchedItems {
+            let item = Film(id: Int(element.id), title: element.wrappedTitle, openingCrawl: element.wrappedOpeningCrawl, director: element.wrappedDirector, producer: element.wrappedProducer, releaseDate: element.wrappedReleaseDate)
+            items.append(item)
+        }
+    }
     
     override func tableView (_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return items.count
@@ -60,20 +77,6 @@ class TableViewController: UITableViewController {
         if let customCell = cell as? CustomTableViewCell {
             let item = items[indexPath.row]
             customCell.setupCell(with: item)
-//            customCell.completion = { [weak self] isPlusAction in
-//                guard let strongSelf = self else {
-//                    return
-//                }
-//                if isPlusAction {
-//                    strongSelf.choosingItems[indexPath.row].quantity += 1
-//                    customCell.setupCell(with: (strongSelf.choosingItems[indexPath.row]))
-//                } else {
-//                    if (strongSelf.choosingItems[indexPath.row].quantity) > 0 {
-//                        strongSelf.choosingItems[indexPath.row].quantity -= 1
-//                    }
-//                    customCell.setupCell(with: (strongSelf.choosingItems[indexPath.row]))
-//                }
-//            }
           }
         return cell
     }
@@ -93,7 +96,7 @@ class TableViewController: UITableViewController {
 }
 
 extension TableViewController {
-    func fetchFilms() {
+    private func fetchFilms() {
         AF.request("https://swapi.dev/api/films").validate().responseDecodable(of: Films.self) { (response) in
             guard let films = response.value else {
                 return

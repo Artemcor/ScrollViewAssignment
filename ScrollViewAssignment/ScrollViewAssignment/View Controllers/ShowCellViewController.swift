@@ -18,9 +18,8 @@ class ShowCellViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         if let item = shopItem {
-            headerLabel.text = item.titleLabelText
-            lowerLabel.text = item.subtitleLabelText    
-//            image.image = UIImage(named: item.nameOfimage)
+            headerLabel.text = item.title
+            lowerLabel.text = item.director
         }
     }
 }

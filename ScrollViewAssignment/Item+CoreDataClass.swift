@@ -14,16 +14,29 @@ public class Item: NSManagedObject {
     
     static let deleteRequest = NSBatchDeleteRequest(fetchRequest: Item.fetchRequest())
     
-    var wrappedName: String {
-        name ?? "Unknown name"
+    var wrappedTitle: String {
+        title ?? "Unknown Title"
     }
     
-    var wrappedDescription: String {
-        descriptionOfItem ?? "Unknown description"
+    var wrappedOpeningCrawl: String {
+        openingCrawl ?? "Unknown OpeningCrawl"
     }
     
-    var wrappedImage: String {
-        image ?? "Unknown name of image"
+    var wrappedDirector: String {
+        director ?? "Unknown Director"
     }
+    
+    var wrappedProducer: String {
+        producer ?? "Unknown Producer"
+    }
+    
+    var wrappedReleaseDate: String {
+        releaseDate ?? "Unknown ReleaseDate"
+    }
+    
 
+    
+    
+    
+    
 }
